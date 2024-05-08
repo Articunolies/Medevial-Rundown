@@ -8,7 +8,6 @@ class GalleryShooter extends Phaser.Scene {
         this.enemyspawnrate = 1;
         this.speedenemycounter = 0;
         this.waveNumber = 1;
-
     }
 
     preload() {
@@ -23,6 +22,9 @@ class GalleryShooter extends Phaser.Scene {
         this.load.tilemapTiledJSON("map", "ShooterMap.json");
 
         this.load.audio("playerShootSound", "knifeSlice.ogg");
+        this.load.audio("damaged", "hitsound.ogg");
+        this.load.audio("begin", "begin.ogg");
+        this.load.audio("music", "music.ogg");
     }
 
     create() {
@@ -74,7 +76,9 @@ class GalleryShooter extends Phaser.Scene {
 
         
         my.sprite.enemies = new Phaser.Structs.List();
+        this.sound.play("begin");
 
+        this.sound.play("music", {loop: true});
 
     }
 
@@ -200,7 +204,6 @@ class GalleryShooter extends Phaser.Scene {
             else {
                 bullet.enemy = true;
                 bullet.y = sprite.y + (sprite.displayHeight/2);
-                // this.sound.play("enemyShootSound");
             }
 
             
@@ -252,7 +255,7 @@ class GalleryShooter extends Phaser.Scene {
         
         this.lives--;
         this.livesText.setText('Lives: ' + this.lives);
-        // this.sound.play("hitSound");
+        this.sound.play("damaged");
 
         if (this.lives == 0) {
             this.my.sprite.player.visible = false;
@@ -267,7 +270,6 @@ class GalleryShooter extends Phaser.Scene {
         enemymob.visible = false;
         this.my.sprite.enemies.remove(enemymob);
         enemymob.destroy();
-        // this.sound.play("explosionSound");
 
         this.score += enemymob.points;
         this.internalscore += enemymob.points;
