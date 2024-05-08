@@ -35,7 +35,7 @@ class GalleryShooter extends Phaser.Scene {
         this.internalscore = 0;
         this.lives = 5;
         this.gameover = false;
-
+        this.game.sound.stopAll();
         let my = this.my;
 
         // add background
@@ -77,9 +77,8 @@ class GalleryShooter extends Phaser.Scene {
         
         my.sprite.enemies = new Phaser.Structs.List();
         this.sound.play("begin");
-
         this.sound.play("music", {loop: true});
-
+        
     }
 
     update() {
@@ -275,7 +274,7 @@ class GalleryShooter extends Phaser.Scene {
         this.internalscore += enemymob.points;
         this.scoreText.setText('Score: ' + this.score);
 
-        if (this.my.sprite.enemies.length == 0) {
+        if (this.my.sprite.enemies.length == 0 && this.waveNumber > 1) {
             this.add.text(400, 300, "Victory", {fontSize: '64px'}).setOrigin(0.5);
             this.add.text(400, 350, "'R' to restart", {fontSize: '32px'}).setOrigin(0.5);
             this.gameover = true;
