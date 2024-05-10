@@ -2,9 +2,8 @@ class Player extends Phaser.GameObjects.Sprite {
 
     constructor(scene, left, right) {
         
-        super(scene, game.config.width/2, game.config.height - 50, "player");
+        super(scene, game.config.width/2, game.config.height - 85, "player");
 
-        this.setScale(.4);
         this.keyA = left;
         this.keyD = right;
         this.Speed = 8;

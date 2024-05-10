@@ -19,7 +19,7 @@ class GalleryShooter extends Phaser.Scene {
         this.load.image("speed", "tile_0121.png");
 
         this.load.image("dungeon_tiles", "tilemap_packed.png");    // tile sheet   
-        this.load.tilemapTiledJSON("map", "ShooterMap.json");
+        this.load.tilemapTiledJSON("map", "ShooterMap2.json");
 
         this.load.audio("playerShootSound", "knifeSlice.ogg");
         this.load.audio("damaged", "hitsound.ogg");
@@ -39,26 +39,28 @@ class GalleryShooter extends Phaser.Scene {
         let my = this.my;
 
         // add background
-        this.map = this.add.tilemap("map", 16, 16, 12, 10);
+        this.map = this.add.tilemap("map", 18, 18, 45, 25);
 
         this.tileset = this.map.addTilesetImage("tilemap_packed", "dungeon_tiles");
         this.sandLayer = this.map.createLayer("sand-layer", this.tileset, 0, 0);
         this.buildLayer = this.map.createLayer("build-layer", this.tileset, 0, 0);
-        this.sandLayer.setScale(4.2);
-        this.buildLayer.setScale(4.2);
+        this.cartlayer = this.map.createLayer("minecart-layer", this.tileset, 0, 0);
+        this.sandLayer.setScale(2.2);
+        this.buildLayer.setScale(2.2);
+        this.cartlayer.setScale(2.2);
 
         this.left = this.input.keyboard.addKey("A");
         this.right = this.input.keyboard.addKey("D");
         this.reset = this.input.keyboard.addKey("R");
         this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        this.scoreText = this.add.text(16, 16, 'Score: ' + this.score, {fontSize: '32px'});
-        this.livesText = this.add.text(600, 16, 'Lives: ' + this.lives, {fontSize: '32px'});
-        this.waveText = this.add.text(300, 16, 'Wave: ' + this.waveNumber, {fontSize: '32px'});
+        this.scoreText = this.add.text(16, 16, 'Score: ' + this.score, {fontSize: '48px'});
+        this.livesText = this.add.text(1150, 16, 'Lives: ' + this.lives, {fontSize: '48px'});
+        this.waveText = this.add.text(650, 16, 'Wave: ' + this.waveNumber, {fontSize: '48px'});
 
 
         my.sprite.player = new Player(this, this.left, this.right);
-        my.sprite.player.setScale(2);
+        my.sprite.player.setScale(2.5);
 
         my.sprite.bulletGroup = this.add.group({
             active: true,
@@ -76,8 +78,12 @@ class GalleryShooter extends Phaser.Scene {
 
         
         my.sprite.enemies = new Phaser.Structs.List();
-        this.sound.play("begin");
-        this.sound.play("music", {loop: true});
+        this.beginsound = this.sound.add('begin');
+        this.beginsound.volume = 0.2;
+        this.beginsound.play();
+        this.music = this.sound.add('music');
+        this.music.volume = 0.2;
+        this.music.play();
         
     }
 
@@ -198,7 +204,9 @@ class GalleryShooter extends Phaser.Scene {
             if (!enemy) {
                 bullet.enemy = false;
                 bullet.y = sprite.y - (sprite.displayHeight/2);
-                this.sound.play("playerShootSound");
+                this.playershoot = this.sound.add('playerShootSound');
+                this.playershoot.volume = 0.3;
+                this.playershoot.play();
             }
             else {
                 bullet.enemy = true;
@@ -258,8 +266,8 @@ class GalleryShooter extends Phaser.Scene {
 
         if (this.lives == 0) {
             this.my.sprite.player.visible = false;
-            this.add.text(400, 300, "Game Over", {fontSize: '64px'}).setOrigin(0.5);
-            this.add.text(400, 350, "'R' to restart", {fontSize: '32px'}).setOrigin(0.5);
+            this.add.text(650, 350, "Game Over", {fontSize: '64px'}).setOrigin(0.5);
+            this.add.text(650, 400, "'R' to restart", {fontSize: '32px'}).setOrigin(0.5);
             this.gameover = true;
         }
     }
@@ -275,8 +283,8 @@ class GalleryShooter extends Phaser.Scene {
         this.scoreText.setText('Score: ' + this.score);
 
         if (this.my.sprite.enemies.length == 0 && this.waveNumber > 1) {
-            this.add.text(400, 300, "Victory", {fontSize: '64px'}).setOrigin(0.5);
-            this.add.text(400, 350, "'R' to restart", {fontSize: '32px'}).setOrigin(0.5);
+            this.add.text(750, 350, "Victory", {fontSize: '64px'}).setOrigin(0.5);
+            this.add.text(750, 400, "'R' to restart", {fontSize: '32px'}).setOrigin(0.5);
             this.gameover = true;
         }
     }

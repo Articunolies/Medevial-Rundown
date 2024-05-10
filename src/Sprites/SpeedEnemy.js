@@ -3,11 +3,22 @@ class SpeedEnemy extends Phaser.GameObjects.PathFollower {
     constructor(scene, x, y) {
 
         super(scene, new Phaser.Curves.Spline(
-            [300, 28, 
-            300, 653,
+            [
+                668, 14,
+                579, 289,
+                749, 290,
+                668, 190,
+                646, 676,
             ]), x, y, "speed");
 
-        this.setScale(1.5);
+            // // [
+            //     714, 17,
+            //     567, 501,
+            //     776, 484,
+            //     676, 359,
+            //     630, 840,
+            // // ]
+        this.setScale(2);
         this.speed = 1;
         this.points =  400;
         this.activateProb = 0.0002;
@@ -27,7 +38,7 @@ class SpeedEnemy extends Phaser.GameObjects.PathFollower {
             from:0,
             to: 1,
             delay: 0,
-            duration: 4000,
+            duration: 6000,
         });
 
         return this;

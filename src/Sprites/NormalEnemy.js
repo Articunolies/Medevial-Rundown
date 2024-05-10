@@ -3,14 +3,17 @@ class NormalEnemy extends Phaser.GameObjects.PathFollower {
     constructor(scene, x, y) {
 
         super(scene, new Phaser.Curves.Spline(
-            [690, 43, 
-            79, 234,
-            677, 413, 
-            -104, 593,
-            588, 684,
+            [
+                1387, 8,
+                113, 125,
+                1350, 203,
+                175, 346,
+                1340, 447,
+                180, 559,
+                1208, 691,
             ]), x, y, "normal");
 
-        this.setScale(1.5);
+        this.setScale(2);
         this.speed = 1;
         this.points = 200;
         this.activateProb = 0.0002;
